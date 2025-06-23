@@ -13,7 +13,10 @@ const Hero = () => {
 				</h3>
 			</div>
 			<div className="flex border-2 rounded-xl  max-w-xl w-full justify-between items-center  bg-background p-2">
-				<textarea className="w-full outline-none text-xs resize-none  h-20" placeholder='Explain how photosynthesis works.' ></textarea>
+				<textarea
+					className="w-full outline-none text-xs resize-none  h-20"
+					placeholder="Explain how photosynthesis works."
+				></textarea>
 				<button className=" px-3 py-2 hover:bg-accent rounded-sm cursor-pointer">
 					<Send className="text-primary w-4 h-4"></Send>
 				</button>
