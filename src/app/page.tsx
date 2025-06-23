@@ -1,4 +1,10 @@
+import Container from '@/components/Container';
+import Landing from './(landing)/page';
+
 export default function Home() {
-	const str = 'hello';
-	return <div className="Hello "></div>;
+	return (
+		<Container>
+			<Landing />
+		</Container>
+	);
 }
