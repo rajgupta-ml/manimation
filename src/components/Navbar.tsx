@@ -6,7 +6,7 @@ const Navbar = () => {
 	return (
 		<div className="flex items-center justify-between pt-4">
 			<Logo></Logo>
-            <ThemeSwitcher></ThemeSwitcher>
+			<ThemeSwitcher></ThemeSwitcher>
 		</div>
 	);
 };

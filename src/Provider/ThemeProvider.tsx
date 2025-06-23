@@ -7,7 +7,7 @@ const NextThemesProvider = dynamic(
 	{
 		ssr: false,
 	}
-)
+);
 
 export function ThemeProvider({
 	children,

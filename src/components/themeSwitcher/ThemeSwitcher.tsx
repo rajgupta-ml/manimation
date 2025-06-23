@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react';
 
@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
 		}
 	};
 
-	if (!mounted) return null; 
+	if (!mounted) return null;
 
 	return (
 		<div className="flex hover:bg-accent p-2 rounded-md transition-colors duration-300 ease-in-out cursor-pointer">
@@ -33,10 +33,10 @@ const ThemeSwitcher = () => {
 
 export default ThemeSwitcher;
 
-const Sun = ({handleThemeChange} : {handleThemeChange : () => void}) => {
+const Sun = ({ handleThemeChange }: { handleThemeChange: () => void }) => {
 	return (
 		<svg
-            onClick={handleThemeChange}
+			onClick={handleThemeChange}
 			xmlns="http://www.w3.org/2000/svg"
 			width="24"
 			height="24"
@@ -53,10 +53,10 @@ const Sun = ({handleThemeChange} : {handleThemeChange : () => void}) => {
 	);
 };
 
-const Moon = ({handleThemeChange} : {handleThemeChange : () => void}) => {
+const Moon = ({ handleThemeChange }: { handleThemeChange: () => void }) => {
 	return (
 		<svg
-            onClick={handleThemeChange}
+			onClick={handleThemeChange}
 			xmlns="http://www.w3.org/2000/svg"
 			width="24"
 			height="24"
