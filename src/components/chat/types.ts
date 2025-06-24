@@ -10,22 +10,21 @@ export interface IChatThreadComponet {
 	handleDeletChat: (id: string) => void;
 }
 
-
 export interface IMessage {
-  message: string
+	message: string;
 }
 
 export interface IChat {
-  userChat: IMessage
-  ai: IMessage
+	userChat: IMessage;
+	ai: IMessage;
 }
 
 export interface IScene {
-  id: number
-  name: string
-  type: "audio" | "video"
-  duration: string
-  startTime: string
-  endTime: string
-  isActive: boolean
+	id: number;
+	name: string;
+	type: 'audio' | 'video';
+	duration: string;
+	startTime: string;
+	endTime: string;
+	isActive: boolean;
 }

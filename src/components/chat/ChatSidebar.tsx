@@ -97,22 +97,22 @@ function ChatSidebar() {
 	};
 
 	return (
-		<Sidebar className="border-r border-border/40 " >
+		<Sidebar className="border-r border-border/40 ">
 			<SidebarHeader className="border-b border-border/40 p-4">
-				<div className={`flex items-center` }>
+				<div className={`flex items-center`}>
 					{state === 'expanded' && <Logo width={150} />}
 				</div>
 			</SidebarHeader>
 
 			<SidebarContent className="p-2">
-				<SidebarGroup >
+				<SidebarGroup>
 					<SidebarGroupContent>
 						<Button
 							size={'sm'}
 							className=" w-full flex rounded-2xl bg-primary text-white cursor-pointer hover:bg-primary/85"
 							onClick={handleAddChat}
 						>
-							<Plus className="h-2 w-2 cursor-pointer"  />
+							<Plus className="h-2 w-2 cursor-pointer" />
 							{state === 'expanded' && 'New chat'}
 						</Button>
 					</SidebarGroupContent>
@@ -146,36 +146,38 @@ function ChatSidebar() {
 			</SidebarContent>
 
 			<SidebarFooter className="border-t border-border/40 p-4">
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton className={`w-full ${state !== "expanded" ? "flex items-center justify-center" : ""}`}>
-									<Avatar className="h-8 w-8 cursor-pointer">
-										<AvatarFallback className="bg-primary text-white text-xs">
-											RG
-										</AvatarFallback>
-									</Avatar>
-									{state === 'expanded' && (
-										<div className="flex flex-col items-start">
-											<span className="text-sm font-medium">Raj Gupta</span>
-											<span className="text-xs text-sidebar-foreground/70">
-												Free plan
-											</span>
-										</div>
-									)}
-								</SidebarMenuButton>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent side="top" className="w-56">
-								<DropdownMenuItem>
-									<User className="mr-2 h-4 w-4" />
-									Profile
-								</DropdownMenuItem>
-								<DropdownMenuItem>Settings</DropdownMenuItem>
-								<DropdownMenuItem>Sign out</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<SidebarMenuButton
+							className={`w-full ${state !== 'expanded' ? 'flex items-center justify-center' : ''}`}
+						>
+							<Avatar className="h-8 w-8 cursor-pointer">
+								<AvatarFallback className="bg-primary text-white text-xs">
+									RG
+								</AvatarFallback>
+							</Avatar>
+							{state === 'expanded' && (
+								<div className="flex flex-col items-start">
+									<span className="text-sm font-medium">Raj Gupta</span>
+									<span className="text-xs text-sidebar-foreground/70">
+										Free plan
+									</span>
+								</div>
+							)}
+						</SidebarMenuButton>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent side="top" className="w-56">
+						<DropdownMenuItem>
+							<User className="mr-2 h-4 w-4" />
+							Profile
+						</DropdownMenuItem>
+						<DropdownMenuItem>Settings</DropdownMenuItem>
+						<DropdownMenuItem>Sign out</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</SidebarFooter>
 		</Sidebar>
 	);
 }
 
-export default ChatSidebar
+export default ChatSidebar;

@@ -383,12 +383,16 @@ function SidebarContent({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
-	const {state} = useSidebar();
+	const { state } = useSidebar();
 	return (
 		<div
 			data-slot="sidebar-group"
 			data-sidebar="group"
-			className={cn('relative flex flex-col', className, state != "expanded" ? "w-2, h-2" : "")}
+			className={cn(
+				'relative flex flex-col',
+				className,
+				state != 'expanded' ? 'w-2, h-2' : ''
+			)}
 			{...props}
 		/>
 	);
