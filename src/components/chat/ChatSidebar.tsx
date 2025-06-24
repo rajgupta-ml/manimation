@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import {
-	Edit,
 	MessageSquare,
-	MoreHorizontal,
 	Plus,
-	Star,
-	Trash2,
+
 	User,
+	X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,8 +37,60 @@ interface IChatThread {
 	timestamp: string;
 }
 
-const chatThreads: IChatThread[] = [
-	{
+
+
+const ChatThread = React.memo(({
+	data,
+	handleRenameChat,
+	handleDeletChat,
+}: {
+	data: IChatThread;
+	handleRenameChat : (id : string, title : string) => void;
+	handleDeletChat : (id : string) => void 
+}) => {
+	const [hover, setHover] = useState(false);
+	const [isEditing, setEditing] = useState(false);
+	const [title, setTitle] = useState<string>("New Chat");
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key == 'Enter' || e.key == 'Escape') {
+			handleRenameChat(data.id, title)
+			setEditing(false);
+		}
+	};
+
+	return (
+		<SidebarMenuItem key={data.id}>
+			<div
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				className={`flex items-center p-2 hover:bg-primary text-foreground cursor-pointer rounded-md group relative `}
+			>
+				{!isEditing ? (
+					<span
+						onDoubleClick={() => setEditing(true)}
+						className="truncate flex-1 text-sm"
+						>
+						{data.title}
+					</span>
+				) : (
+					<input
+						autoFocus={true}
+						defaultValue={data.title}
+						onChange={(e) => setTitle(e.target.value)}
+						onKeyDown={(e) => handleKeyDown(e)}
+						onBlur={() => setEditing(false)}
+					></input>
+				)}
+
+				{hover && (<X className='w-4 h-4' onClick={() => handleDeletChat(data.id)}></X>)} 
+			</div>
+		</SidebarMenuItem>
+	);
+});
+
+export function ChatSidebar() {
+	const { state } = useSidebar();
+	const [chatThreads, setChatThreads]  = useState<IChatThread[]>([{
 		id: '1',
 		title: 'Safe Async Error Handling in Type...',
 		timestamp: '2 hours ago',
@@ -81,120 +131,29 @@ const chatThreads: IChatThread[] = [
 		id: '10',
 		title: 'UI Animation Enhancement Guide',
 		timestamp: '3 weeks ago',
-	},
-];
-
-const ChatThread = ({
-	data,
-	starredChats,
-	onStarChat,
-	onDeleteChat,
-	onRenameChat,
-}: {
-	data: IChatThread;
-	starredChats: Set<string>;
-	onStarChat: (chatId: string, e: React.MouseEvent) => void;
-	onDeleteChat: (chatId: string, e: React.MouseEvent) => void;
-	onRenameChat: (chatId: string, e: React.MouseEvent) => void;
-}) => {
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const [hover, setHover] = useState(false);
-	return (
-		<SidebarMenuItem key={data.id}>
-			<div
-				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
-				className={`flex items-center p-2 hover:bg-primary text-foreground cursor-pointer rounded-md group relative `}
-			>
-				<span className="truncate flex-1 text-sm">{data.title}</span>
-
-				<DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-					<DropdownMenuTrigger asChild>
-						{hover && (
-							<Button
-								variant="ghost"
-								size="sm"
-								className="h-6 w-6 p-0 ml-2 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 cursor-pointer"
-								onClick={(e) => {
-									e.stopPropagation();
-									setIsDropdownOpen(true);
-								}}
-							>
-								<MoreHorizontal className="h-3 w-3" />
-							</Button>
-						)}
-					</DropdownMenuTrigger>
-					<DropdownMenuContent
-						align="end"
-						className="w-48"
-						onCloseAutoFocus={(e) => e.preventDefault()}
-					>
-						<DropdownMenuItem
-							onClick={(e) => {
-								e.stopPropagation();
-								onStarChat(data.id, e);
-								setIsDropdownOpen(false);
-							}}
-						>
-							<Star
-								className={`mr-2 h-4 w-4 ${starredChats.has(data.id) ? 'fill-yellow-400 text-yellow-400' : ''}`}
-							/>
-							{starredChats.has(data.id) ? 'Unstar' : 'Star'}
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={(e) => {
-								e.stopPropagation();
-								onRenameChat(data.id, e);
-								setIsDropdownOpen(false);
-							}}
-						>
-							<Edit className="mr-2 h-4 w-4" />
-							Rename
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							className="text-destructive focus:text-destructive"
-							onClick={(e) => {
-								e.stopPropagation();
-								onDeleteChat(data.id, e);
-								setIsDropdownOpen(false);
-							}}
-						>
-							<Trash2 className="mr-2 h-4 w-4 text-destructive" />
-							Delete
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
-		</SidebarMenuItem>
-	);
-};
-
-export function ChatSidebar() {
-	const [starredChats, setStarredChats] = useState<Set<string>>(new Set());
-	const { state } = useSidebar();
-
-	const handleStarChat = (chatId: string, e: React.MouseEvent) => {
-		e.stopPropagation();
-		setStarredChats((prev) => {
-			const newSet = new Set(prev);
-			if (newSet.has(chatId)) {
-				newSet.delete(chatId);
-			} else {
-				newSet.add(chatId);
-			}
-			return newSet;
-		});
+	}])
+	
+	const handleDeleteChat =(id: string) => {
+		setChatThreads((prev) => prev.filter(chat => chat.id !== id));
 	};
 
-	const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
-		e.stopPropagation();
-		console.log('Delete chat:', chatId);
-	};
+	const handleRenameChat = (id: string, newTitle: string) => {
+	setChatThreads((prev) =>
+		prev.map(chat =>
+		chat.id === id ? { ...chat, title: newTitle } : chat
+		)
+	)};
 
-	const handleRenameChat = (chatId: string, e: React.MouseEvent) => {
-		e.stopPropagation();
-		console.log('Handle Rename Chat:', chatId);
-	};
+	const handleAddChat = () => {
+		const newChatThread : IChatThread = {
+			id : chatThreads[0].id + 1,
+			title : "New Chat",
+			timestamp : new Date().toString()
+		}
+		setChatThreads([ newChatThread, ...chatThreads])
+	}
+
+
 
 	return (
 		<Sidebar className="border-r border-border/40 bg-sidebar">
@@ -208,10 +167,8 @@ export function ChatSidebar() {
 				<SidebarGroup>
 					<SidebarGroupContent>
 						<Button
-							className="w-full justify-start gap-2 bg-primary text-white mb-4"
-							onClick={() => {
-								console.log('New chat clicked');
-							}}
+							className="w-full justify-start gap-2 bg-primary text-white mb-4 cursor-pointer"
+							onClick={handleAddChat}
 						>
 							<Plus className="h-4 w-4" />
 							{state === 'expanded' && 'New chat'}
@@ -237,10 +194,8 @@ export function ChatSidebar() {
 									<ChatThread
 										key={data.id}
 										data={data}
-										starredChats={starredChats}
-										onStarChat={handleStarChat}
-										onDeleteChat={handleDeleteChat}
-										onRenameChat={handleRenameChat}
+										handleDeletChat = {handleDeleteChat}
+										handleRenameChat = {handleRenameChat}
 									/>
 								))}
 						</SidebarMenu>
