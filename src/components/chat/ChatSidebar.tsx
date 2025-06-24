@@ -13,7 +13,6 @@ import {
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
-	SidebarMenuItem,
 	useSidebar,
 } from '@/components/ui/sidebar';
 import {
@@ -27,7 +26,7 @@ import { Logo } from '../logo/Logo';
 import { IChatThread } from './types';
 import ChatThread from './ChatThread';
 
-export function ChatSidebar() {
+function ChatSidebar() {
 	const { state } = useSidebar();
 	const [chatThreads, setChatThreads] = useState<IChatThread[]>([
 		{
@@ -98,21 +97,22 @@ export function ChatSidebar() {
 	};
 
 	return (
-		<Sidebar className="border-r border-border/40 bg-sidebar">
+		<Sidebar className="border-r border-border/40 " >
 			<SidebarHeader className="border-b border-border/40 p-4">
-				<div className="flex  gap-2">
+				<div className={`flex items-center` }>
 					{state === 'expanded' && <Logo width={150} />}
 				</div>
 			</SidebarHeader>
 
 			<SidebarContent className="p-2">
-				<SidebarGroup>
+				<SidebarGroup >
 					<SidebarGroupContent>
 						<Button
-							className="w-full justify-start gap-2 bg-primary text-white mb-4 cursor-pointer"
+							size={'sm'}
+							className=" w-full flex rounded-2xl bg-primary text-white cursor-pointer hover:bg-primary/85"
 							onClick={handleAddChat}
 						>
-							<Plus className="h-4 w-4" />
+							<Plus className="h-2 w-2 cursor-pointer"  />
 							{state === 'expanded' && 'New chat'}
 						</Button>
 					</SidebarGroupContent>
@@ -146,12 +146,10 @@ export function ChatSidebar() {
 			</SidebarContent>
 
 			<SidebarFooter className="border-t border-border/40 p-4">
-				<SidebarMenu>
-					<SidebarMenuItem>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton className="w-full justify-start">
-									<Avatar className="h-6 w-6">
+								<SidebarMenuButton className={`w-full ${state !== "expanded" ? "flex items-center justify-center" : ""}`}>
+									<Avatar className="h-8 w-8 cursor-pointer">
 										<AvatarFallback className="bg-primary text-white text-xs">
 											RG
 										</AvatarFallback>
@@ -175,9 +173,9 @@ export function ChatSidebar() {
 								<DropdownMenuItem>Sign out</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
 			</SidebarFooter>
 		</Sidebar>
 	);
 }
+
+export default ChatSidebar
